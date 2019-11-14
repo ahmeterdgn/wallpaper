@@ -1,9 +1,16 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { FlatList , View, StyleSheet, Text, Image, TouchableOpacity, Button,ActivityIndicator } from 'react-native';
 import { withNavigation } from 'react-navigation';
-
+import { FlatList,
+	  View,
+		StyleSheet,
+		Text,
+		Image,
+		TouchableOpacity,
+		Button,
+		ActivityIndicator
+	} from 'react-native';
 
 class Tab1 extends Component {
 constructor(){
@@ -16,15 +23,12 @@ constructor(){
 }
 
 renderItem = ({ item }) =>{
-  // function tiklandi(ad) {    }
-
 	return(
-// this.props.navigation.navigate('Sayfalar',{ veri: item.ad })
 		<TouchableOpacity
     onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
     style={{flex:1}}>
 			<Image
-			style={{flex:1 ,width:null, height: 250, borderRadius:10, margin: 2.2}}
+			style={styles.resim}
 			source={{uri: 'https://weast.ahmeterdgn.net/'+item.ad}}
 			/>
 		</TouchableOpacity>
@@ -58,7 +62,7 @@ render() {
 
 		this.state.isLoading
 		?
-		<View style={{flex:1, justifyContent:'center',backgroundColor: 'black', alignItems:'center' }}>
+		<View style={styles.loading}>
 			<ActivityIndicator size="large" color="red" animating/>
 
 		</View>
@@ -88,5 +92,19 @@ container: {
 text:{
   margin: 20
 },
+resim:{
+	flex:1 ,
+	width:null,
+	height: 250,
+	borderRadius:6,
+	margin: 2
+},
+loading:{
+	flex:1,
+	justifyContent:'center',
+	backgroundColor: 'black',
+	alignItems:'center'
+},
+
 });
 export default withNavigation(Tab1);

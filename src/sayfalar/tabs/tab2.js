@@ -10,7 +10,10 @@ class Tab2 extends Component {
   constructor(){
   	super()
   	this.state={
-  		data:[]
+  		data:[],
+      isLoading:true,
+      refreshing:false,
+
   	}
   }
 
@@ -37,8 +40,14 @@ class Tab2 extends Component {
   	fetch(url)
   	.then((response)=> response.json())
   	.then((responseJson)=>{
+      this.setState({
+          refreshing:true,
+      });
   		this.setState({
-  			data:responseJson
+  			data:responseJson,
+        isLoading:false,
+        refreshing:false,
+
   		})
   	})
   	.catch((error)=>{
@@ -61,6 +70,8 @@ class Tab2 extends Component {
   			data={this.state.data}
   			renderItem={this.renderItem}
   			keyExtractor={(item,index)=>index}
+        refreshing={this.state.refreshing}
+        onRefresh={() =>  this.UNSAFE_componentWillMount()}
   		/>
 
   </View>
@@ -96,11 +107,14 @@ const styles = StyleSheet.create({
   },
   yukleniyor:{
     flex:1,
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+
   },
   list:{
-    backgroundColor:'#111111'
+    flex: 1,
+    backgroundColor:'#111111',
+
   },
 });
 export default withNavigation(Tab2);

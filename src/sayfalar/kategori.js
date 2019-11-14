@@ -6,7 +6,10 @@ export default class Kategori extends Component {
     constructor(){
     	super()
     	this.state={
-    		data:[]
+    		data:[],
+        isLoading:true,
+        refreshing:false,
+
     	}
     }
 
@@ -19,7 +22,7 @@ export default class Kategori extends Component {
         onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
         style={{flex:1}}>
     			<Image
-    			style={{flex:1 ,width:null, height: 250, borderRadius:10, margin: 2}}
+    			style={{flex:1 ,width:null, height: 250, borderRadius:6, margin: 2}}
     			source={{uri: 'https://weast.ahmeterdgn.net/'+item.ad}}
     			/>
     		</TouchableOpacity>
@@ -33,8 +36,13 @@ export default class Kategori extends Component {
     	fetch(url)
     	.then((response)=> response.json())
     	.then((responseJson)=>{
+        this.setState({
+            refreshing:true,
+        });
     		this.setState({
-    			data:responseJson
+    			data:responseJson,
+          isLoading: false,
+          refreshing:false,
     		})
     	})
     	.catch((error)=>{
@@ -48,19 +56,21 @@ export default class Kategori extends Component {
 
     		this.state.isLoading
     		?
-    		<View style={{flex:1, justifyContent:'center', alignItems:'center' }}>
+    		<View style={styles.loading}>
     			<ActivityIndicator size="large" color="red" animating/>
 
     		</View>
     		:
-    <View style={{backgroundColor:'#111111'}}>
+
+  <View style={{backgroundColor:'#111111'}}>
     		<FlatList
 
     			numColumns={3}
     			data={this.state.data.reverse()}
     			renderItem={this.renderItem}
     			keyExtractor={(item,index)=>index}
-          
+          refreshing={this.state.refreshing}
+          onRefresh={() =>  this.UNSAFE_componentWillMount()}
     		/>
 
     </View>
@@ -73,4 +83,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  loading:{
+    flex:1,
+    justifyContent: 'center',
+    backgroundColor: 'black',
+  }
 });

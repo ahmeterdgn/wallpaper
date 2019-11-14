@@ -1,9 +1,5 @@
-import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 
@@ -13,7 +9,7 @@ import Sayfalar from './src/sayfalar/sayfalar';
 import Detaylar from './src/sayfalar/detay';
 import Kategori from './src/sayfalar/kategori';
 
-class App extends React.Component {
+class App extends Component {
   render() {
     const AppNavigator = createAppContainer(UygulamaEkrani);
     return (<AppNavigator/>);
