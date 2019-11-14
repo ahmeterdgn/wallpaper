@@ -13,6 +13,7 @@ class Tab3 extends Component {
   	this.state = {
   		data: [],
       isLoading: true,
+      refreshing: false
   	};
   }
   shuffle = (array) =>  {
@@ -56,9 +57,13 @@ class Tab3 extends Component {
   	.then((response) => response.json())
   	.then((responseJson) => {
     let shuffle = this.shuffle(responseJson);
+    this.setState({
+        refreshing:true,
+    });
   		this.setState({
-  			data:shuffle,
+  			   data:shuffle,
           isLoading: false,
+          refreshing:false,
   		});
   	})
   	.catch((error) => {
@@ -86,7 +91,10 @@ class Tab3 extends Component {
         numColumns={3}
         data={this.state.data}
         renderItem={this.renderItem}
+        refreshing={this.state.refreshing}
+        onRefresh={() =>  this.UNSAFE_componentWillMount()}
         keyExtractor={(item, index) => index}
+
       />
 
     </View>

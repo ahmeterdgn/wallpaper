@@ -6,80 +6,87 @@ import { withNavigation } from 'react-navigation';
 
 
 class Tab1 extends Component {
-  constructor(){
-  	super()
-  	this.state={
-  		data:[],
-      isLoading:true
-  	}
-  }
+constructor(){
+	super()
+	this.state={
+		data:[],
+    isLoading:true,
+    refreshing:false
+	}
+}
 
-  renderItem = ({ item }) =>{
-    // function tiklandi(ad) {    }
+renderItem = ({ item }) =>{
+  // function tiklandi(ad) {    }
 
-  	return(
+	return(
 // this.props.navigation.navigate('Sayfalar',{ veri: item.ad })
-  		<TouchableOpacity
-      onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
-      style={{flex:1}}>
-  			<Image
-  			style={{flex:1 ,width:null, height: 250, borderRadius:10, margin: 2.2}}
-  			source={{uri: 'https://weast.ahmeterdgn.net/'+item.ad}}
-  			/>
-  		</TouchableOpacity>
-  	)
+		<TouchableOpacity
+    onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
+    style={{flex:1}}>
+			<Image
+			style={{flex:1 ,width:null, height: 250, borderRadius:10, margin: 2.2}}
+			source={{uri: 'https://weast.ahmeterdgn.net/'+item.ad}}
+			/>
+		</TouchableOpacity>
+	)
 
-  }
+}
 
-  UNSAFE_componentWillMount(){
-  	const url = 'http://weast.ahmeterdgn.net/api'
+UNSAFE_componentWillMount(){
+	const url = 'http://weast.ahmeterdgn.net/api'
 
-  	fetch(url)
-  	.then((response)=> response.json())
-  	.then((responseJson)=>{
-  		this.setState({
-        data:responseJson.reverse(),
-        isLoading:false,
+	fetch(url)
+	.then((response)=> response.json())
+	.then((responseJson)=>{
+    this.setState({
+        refreshing:true,
+    });
+		this.setState({
+      data:responseJson.reverse(),
+      isLoading:false,
+      refreshing:false,
+		})
+	})
+	.catch((error)=>{
+		console.log(error)
+	})
+}
 
-  		})
-  	})
-  	.catch((error)=>{
-  		console.log(error)
-  	})
-  }
+render() {
 
-  render() {
+	return(
 
-  	return(
+		this.state.isLoading
+		?
+		<View style={{flex:1, justifyContent:'center',backgroundColor: 'black', alignItems:'center' }}>
+			<ActivityIndicator size="large" color="red" animating/>
 
-  		this.state.isLoading
-  		?
-  		<View style={{flex:1, justifyContent:'center',backgroundColor: 'black', alignItems:'center' }}>
-  			<ActivityIndicator size="large" color="red" animating/>
+		</View>
+		:
+<View style={{backgroundColor:'#212121'}}>
+		<FlatList
 
-  		</View>
-  		:
-  <View style={{backgroundColor:'#212121'}}>
-  		<FlatList
+			numColumns={3}
+			data={this.state.data}
+			renderItem={this.renderItem}
+      refreshing={this.state.refreshing}
+      onRefresh={() =>  this.UNSAFE_componentWillMount()}
 
-  			numColumns={3}
-  			data={this.state.data}
-  			renderItem={this.renderItem}
-  			keyExtractor={(item,index)=>index}
-  		/>
+			keyExtractor={(item,index)=>index}
+		/>
 
-  </View>
+</View>
 
-  )
-  }
+)
+}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  text:{
-    margin: 20
-  },
+container: {
+  flex: 1,
+},
+text:{
+  margin: 20
+},
 });
 export default withNavigation(Tab1);
