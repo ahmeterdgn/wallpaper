@@ -1,5 +1,5 @@
 /* @flow */
-
+//npm uninstall react-native-lazyload sil
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import { FlatList,
@@ -25,6 +25,8 @@ constructor(){
 renderItem = ({ item }) =>{
 	return(
 		<TouchableOpacity
+			activeOpacity={0.9}
+
     onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
     style={{flex:1}}>
 			<Image
@@ -42,9 +44,7 @@ UNSAFE_componentWillMount(){
 	fetch(url)
 	.then((response)=> response.json())
 	.then((responseJson)=>{
-    this.setState({
-        refreshing:true,
-    });
+
 		this.setState({
       data:responseJson.reverse(),
       isLoading:false,
@@ -75,6 +75,8 @@ render() {
 			renderItem={this.renderItem}
       refreshing={this.state.refreshing}
       onRefresh={() =>  this.UNSAFE_componentWillMount()}
+			onEndReached={this.endReached}
+			onEndReachedThreshold={.7}
 
 			keyExtractor={(item,index)=>index}
 		/>
@@ -97,7 +99,7 @@ resim:{
 	width:null,
 	height: 250,
 	borderRadius:6,
-	margin: 2
+	margin: 1
 },
 loading:{
 	flex:1,

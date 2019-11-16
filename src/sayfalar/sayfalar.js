@@ -19,13 +19,14 @@ export default class TabsExample extends Component {
         <Header hasTabs style={{backgroundColor: '#111111'}}>
         <Left>
           <Button transparent
+            onPress={() => this.props.navigation.toggleDrawer()}
 
             >
             <Icon name='ios-menu' style={{color:'#e82a2a',fontSize: 35}}/>
           </Button>
         </Left>
          <Body >
-         <Title style={{color: '#e82a2a',left: 60}}>AHMETERDGN</Title>
+         <Title style={{color: '#e82a2a',left: 60, fontFamily: 'BadScript-Regular'}}>AHMETERDGN</Title>
          </Body>
          <Right>
            <Button transparent

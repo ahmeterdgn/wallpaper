@@ -1,26 +1,42 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
+import React, {Component} from 'react';
+import { StyleSheet, Text, View,SafeAreaView,ScrollView,Dimensions,Image} from 'react-native';
+import {  createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import {  createAppContainer } from 'react-navigation';
+import LinearGradient from 'react-native-linear-gradient';
+import 'react-native-gesture-handler';
 
-
-//SAYAFALAR
+//SAYFALAR
 import Sayfalar from './src/sayfalar/sayfalar';
 import Detaylar from './src/sayfalar/detay';
 import Kategori from './src/sayfalar/kategori';
+import SideBar from './src/sayfalar/menu';
 
-class App extends Component {
+
+
+
+ class App extends Component{
+
   render() {
-    const AppNavigator = createAppContainer(UygulamaEkrani);
-    return (<AppNavigator/>);
+    const AppNavigator = createAppContainer(AppDrawerNavigator);
+
+    return (
+      <AppNavigator/>
+    );
   }
 }
 
-const UygulamaEkrani= createDrawerNavigator({
-  Sayfalar:Sayfalar,
-  Detaylar:Detaylar,
-  Kategori:Kategori
 
+
+const AppDrawerNavigator = createDrawerNavigator({
+  Sayfalar,
+  Kategori,
+  Detaylar
+},
+{
+  contentComponent:props=><SideBar {...props}/>,
+  contentOptions:{
+    activeTintColor:'#e82a2a'
+  }
 });
 
 export default App;

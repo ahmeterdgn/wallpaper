@@ -40,9 +40,7 @@ class Tab2 extends Component {
   	fetch(url)
   	.then((response)=> response.json())
   	.then((responseJson)=>{
-      this.setState({
-          refreshing:true,
-      });
+
   		this.setState({
   			data:responseJson,
         isLoading:false,
@@ -94,11 +92,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 100,
     width: null,
-    borderRadius: 18,
+    borderRadius: 4,
   },
   yazi:{
     color:'#fff',
-    fontStyle: 'italic',
     fontSize: 25 ,
     position:'absolute',
     right: 50,

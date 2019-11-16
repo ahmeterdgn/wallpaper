@@ -37,12 +37,14 @@ class Tab3 extends Component {
   	 (
     // this.props.navigation.navigate('Sayfalar',{ veri: item.ad })
     <TouchableOpacity
+      activeOpacity={0.9}
+
       onPress={() => this.props.navigation.navigate('Detaylar', { veri: item.ad })}
       style={{ flex: 1 }}
   		>
       <Image
         style={{
-          flex: 1, width: null, height: 250, borderRadius: 10, margin: 2.2,
+          flex: 1, width: null, height: 250, borderRadius: 5, margin: 1,
         }}
         source={{ uri: `https://weast.ahmeterdgn.net/${item.ad}` }}
       />
@@ -57,11 +59,9 @@ class Tab3 extends Component {
   	.then((response) => response.json())
   	.then((responseJson) => {
     let shuffle = this.shuffle(responseJson);
-    this.setState({
-        refreshing:true,
-    });
+
   		this.setState({
-  			   data:shuffle,
+  			  data:shuffle,
           isLoading: false,
           refreshing:false,
   		});
@@ -94,6 +94,8 @@ class Tab3 extends Component {
         refreshing={this.state.refreshing}
         onRefresh={() =>  this.UNSAFE_componentWillMount()}
         keyExtractor={(item, index) => index}
+        onEndReached={this.endReached}
+        onEndReachedThreshold={.2}
 
       />
 

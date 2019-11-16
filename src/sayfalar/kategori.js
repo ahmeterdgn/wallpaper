@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList , View, StyleSheet, Text, Image, TouchableOpacity, Button,ActivityIndicator } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 
 export default class Kategori extends Component {
 
@@ -17,8 +18,8 @@ export default class Kategori extends Component {
       // function tiklandi(ad) {    }
 
     	return(
-  // this.props.navigation.navigate('Sayfalar',{ veri: item.ad })
-    		<TouchableOpacity
+
+                         		<TouchableOpacity
         onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
         style={{flex:1}}>
     			<Image
@@ -31,19 +32,19 @@ export default class Kategori extends Component {
     }
 
     UNSAFE_componentWillMount(){
-    	const url = 'https://weast.ahmeterdgn.net/api/index.php?id='+this.props.navigation.state.params.Kategori_adı
+    	const url = 'https://weast.ahmeterdgn.net/api/index.php?id='+ this.props.navigation.state.params.Kategori_adı
 
     	fetch(url)
     	.then((response)=> response.json())
     	.then((responseJson)=>{
-        this.setState({
-            refreshing:true,
-        });
+
     		this.setState({
     			data:responseJson,
           isLoading: false,
           refreshing:false,
+
     		})
+
     	})
     	.catch((error)=>{
     		console.log(error)
@@ -62,9 +63,9 @@ export default class Kategori extends Component {
     		</View>
     		:
 
-  <View style={{backgroundColor:'#111111'}}>
+  <View style={{backgroundColor:'#111111',    flex: 1,
+ }}>
     		<FlatList
-
     			numColumns={3}
     			data={this.state.data.reverse()}
     			renderItem={this.renderItem}
@@ -72,7 +73,9 @@ export default class Kategori extends Component {
           refreshing={this.state.refreshing}
           onRefresh={() =>  this.UNSAFE_componentWillMount()}
     		/>
-
+        <NavigationEvents
+             onDidFocus={() => this.UNSAFE_componentWillMount()}
+         />
     </View>
 
     )
