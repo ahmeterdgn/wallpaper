@@ -9,7 +9,7 @@ import {
     Image,
     Linking,
     Share,
-    ImageBackground
+    PermissionsAndroid
 }
 from 'react-native';
 import {
@@ -29,7 +29,31 @@ import {
 }
 from "native-base";
 import WallPaperManager from '@ajaybhatia/react-native-wallpaper-manager';
+import RNFetchBlob from 'rn-fetch-blob';
 
+export async function request_storage_runtime_permission() {
+
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        'title': 'Depolama İzni',
+        'message': 'Uygulamanın Fotoğrafları indirmek için depolama alanınıza erişmesi gerekiyor.'
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+      console.log("Storage Permission Granted.");
+    }
+    else {
+
+      alert("Depolama İzni Verilmedi...");
+
+    }
+  } catch (err) {
+    console.warn(err)
+  }
+}
 export default class DETAY extends Component {
   constructor(props) {
           super(props);
@@ -43,7 +67,6 @@ export default class DETAY extends Component {
               result: ''
           };
           this._setwallpaper = this._setwallpaper.bind(this);
-          this._download = this._download.bind(this);
 
       }
       _showResult(result) {
@@ -74,9 +97,52 @@ export default class DETAY extends Component {
               }
           }))
       }
-      _download(){
-        'işlemler burada'
+
+        async componentDidMount() {
+
+      await request_storage_runtime_permission()
+
+    }
+//https://avatars2.githubusercontent.com/u/48730205?s=460&v=4
+
+    downloadImage = () => {
+      var date = new Date();
+      var image_URL = 'https://weast.ahmeterdgn.net/'+this.props.navigation.state.params.veri;
+      var ext = this.getExtention(image_URL);
+      ext = "." + ext[0];
+      const { config, fs } = RNFetchBlob;
+      let PictureDir = fs.dirs.PictureDir
+      let options = {
+        fileCache: true,
+        addAndroidDownloads: {
+          useDownloadManager: true,
+          notification: true,
+          path: PictureDir + "/image_" + Math.floor(date.getTime()
+            + date.getSeconds() / 2) + ext,
+          description: 'Image'
+        }
       }
+      config(options).fetch('GET', image_URL).then((res) => {
+        Toast.show({
+           text: "RESİM İNDİRİLDİ!!",
+           position: "bottom",
+           buttonText: "TAMAM",
+           type: "success",
+           style: {
+               bottom: 40,
+               borderRadius: 80,
+               width: '60%',
+               left: '150%'
+           }
+       })
+      });
+    }
+
+    getExtention = (filename) => {
+      return (/[.]/.exec(filename)) ? /[^.]+$/.exec(filename) :
+        undefined;
+    }
+
   render() {
     return (
       <Root>
@@ -124,7 +190,7 @@ export default class DETAY extends Component {
              onPress={() => this.setState({ active: !this.state.active })}>
              <Icon name="ios-checkmark" />
              <Button style={{ backgroundColor: '#e82a2a' }}
-             onPress={this._download}
+             onPress={this.downloadImage}
 
              >
                <Icon name="ios-download" />
