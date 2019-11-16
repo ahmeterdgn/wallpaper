@@ -13,7 +13,11 @@ class Tab3 extends Component {
   	this.state = {
   		data: [],
       isLoading: true,
+<<<<<<< HEAD
       refreshing: false
+=======
+      refreshing: false,
+>>>>>>> ff032a1c4820c2f86620e85bcccfe7e470889a44
   	};
   }
   shuffle = (array) =>  {
@@ -59,9 +63,17 @@ class Tab3 extends Component {
   	.then((response) => response.json())
   	.then((responseJson) => {
     let shuffle = this.shuffle(responseJson);
+<<<<<<< HEAD
 
   		this.setState({
   			  data:shuffle,
+=======
+    this.setState({
+        refreshing:true,
+    });
+  		this.setState({
+  			   data:shuffle,
+>>>>>>> ff032a1c4820c2f86620e85bcccfe7e470889a44
           isLoading: false,
           refreshing:false,
   		});
@@ -94,8 +106,11 @@ class Tab3 extends Component {
         refreshing={this.state.refreshing}
         onRefresh={() =>  this.UNSAFE_componentWillMount()}
         keyExtractor={(item, index) => index}
+<<<<<<< HEAD
         onEndReached={this.endReached}
         onEndReachedThreshold={.2}
+=======
+>>>>>>> ff032a1c4820c2f86620e85bcccfe7e470889a44
 
       />
 

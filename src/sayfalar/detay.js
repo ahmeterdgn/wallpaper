@@ -75,7 +75,7 @@ export default class DETAY extends Component {
           }))
       }
       _download(){
-
+        'işlemler burada'
       }
   render() {
     return (
