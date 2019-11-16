@@ -1,44 +1,85 @@
 /* @flow */
-
-import React, { Component } from 'react';
+import React, {
+    Component
+}
+from 'react';
 import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  Linking,
-  Share,
-} from 'react-native';
-import { Container, Header, Title, Content, Button, Icon, Left,Right, Body,Fab  } from "native-base";
+    View,
+    StyleSheet,
+    Image,
+    Linking,
+    Share,
+    ImageBackground
+}
+from 'react-native';
+import {
+    Container,
+    Header,
+    Title,
+    Content,
+    Button,
+    Icon,
+    Left,
+    Right,
+    Body,
+    Fab,
+    Toast,
+    Text,
+    Root
+}
+from "native-base";
 import WallPaperManager from '@ajaybhatia/react-native-wallpaper-manager';
 
-
-
-
 export default class DETAY extends Component {
-constructor(props){
-  super(props);
-  this.state = {
-    active: false
-  };
-this._shareimg = this._shareimg.bind(this);
-this._showResult = this._showResult.bind(this);
-this.state = {result: ''};
+  constructor(props) {
+          super(props);
+          this.state = {
+              showToast: false,
+              active: false,
+          };
+          this._shareimg = this._shareimg.bind(this);
+          this._showResult = this._showResult.bind(this);
+          this.state = {
+              result: ''
+          };
+          this._setwallpaper = this._setwallpaper.bind(this);
+          this._download = this._download.bind(this);
 
-}
-_showResult(result){
-  this.setState({result})
-}
-_shareimg(){
-  Share.share({
-    message:'Wallpaper Uygulaması http://ahmeterdgn.net/',
-    title: 'asasdsad',
-    url:'http://weast.ahmeterdgn.net/resim//2237526662.jpg',
-  }).then(this._showResult);
-}
+      }
+      _showResult(result) {
+          this.setState({
+              result
+          })
+      }
+      _shareimg() {
+          Share.share({
+              message: 'Wallpaper Uygulaması http://ahmeterdgn.net/',
+              title: 'asasdsad',
+              url: 'http://weast.ahmeterdgn.net/' + this.props.navigation.state.params.veri,
+          }).then(this._showResult);
+      }
+      _setwallpaper() {
+          WallPaperManager.setWallpaper({
+              uri: 'https://weast.ahmeterdgn.net/' + this.props.navigation.state.params.veri
+          }, res => Toast.show({
+              text: "DUVAR KAĞIDI UYGULANDI!!",
+              position: "bottom",
+              buttonText: "TAMAM",
+              type: "success",
+              style: {
+                  bottom: 40,
+                  borderRadius: 80,
+                  width: '80%',
+                  left: '100%'
+              }
+          }))
+      }
+      _download(){
 
+      }
   render() {
     return (
+      <Root>
       <Container style={styles.container}>
       <Header style={{backgroundColor: 'black' }}>
          <Left>
@@ -49,47 +90,61 @@ _shareimg(){
            </Button>
          </Left>
          <Body>
-           <Title style={{color:'red'}}>Görüntüle</Title>
+           <Title style={{color:'red' }}>Görüntüle</Title>
          </Body>
          <Right>
+             <Button transparent
+                  onPress={() =>
+                    Toast.show({
+                        text: "           YAPIM AŞAMASINDA!!",
+                        position: "bottom",
+                        style: {
+                            bottom:40,
+                            borderRadius:80,
+                            width:'70%',
+                            left: '100%'
 
-                  <Button transparent>
-                    <Icon name='heart' />
-                  </Button>
-                  <Button transparent>
-                    <Icon name='share'
-                      onPress={this._shareimg}
-                      />
+                          }})
+                        }>
+                    <Icon name='heart'/>
                   </Button>
                 </Right>
         </Header>
 
-         <View style={{ flex: 1 }}>
          <Image
-         style={{flex:1,}}
+         style={{flex:1}}
          source={{uri: 'https://weast.ahmeterdgn.net/'+this.props.navigation.state.params.veri}}
          />
            <Fab
-             active={this.state.active}
+           active={this.state.active}
              direction="up"
-             containerStyle={{ }}
-             style={{ backgroundColor: '#3B5998' }}
+             containerStyle={{ opacity: 1 }}
+             style={{ backgroundColor: '#e82a2a', }}
              position="bottomRight"
              onPress={() => this.setState({ active: !this.state.active })}>
              <Icon name="ios-checkmark" />
-             <Button style={{ backgroundColor: '#3B5998' }}>
+             <Button style={{ backgroundColor: '#e82a2a' }}
+             onPress={this._download}
+
+             >
                <Icon name="ios-download" />
              </Button>
-             <Button disabled style={{ backgroundColor: '#3B5998' }}>
-               <Icon name="md-tablet-portrait"
-                 onPress={() => WallPaperManager.setWallpaper({uri: 'https://weast.ahmeterdgn.net/'+this.props.navigation.state.params.veri}, res => alert(res.msg)) }
+             <Button  style={{ backgroundColor: '#e82a2a' }}
+             onPress={this._setwallpaper}
+             >
+               <Icon name="md-tablet-portrait"/>
+             </Button>
+             <Button  style={{ backgroundColor: '#e82a2a' }}
+             onPress={this._shareimg}
 
-                  />
+             >
+               <Icon name="share"/>
              </Button>
            </Fab>
-         </View>
 
       </Container>
+      </Root>
+
     );
   }
 }
