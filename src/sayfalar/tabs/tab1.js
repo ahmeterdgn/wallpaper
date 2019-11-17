@@ -10,6 +10,7 @@ import { FlatList,
 		Button,
 		ActivityIndicator
 	} from 'react-native';
+	import {COLOR_HEADER,API,URL,API_KATEGORI} from './../bilgiler/bilgiler';
 
 class Tab1 extends Component {
 constructor(){
@@ -30,7 +31,7 @@ renderItem = ({ item }) =>{
     style={{flex:1}}>
 			<Image
 			style={styles.resim}
-			source={{uri: 'https://weast.ahmeterdgn.net/'+item.ad}}
+			source={{uri: URL+item.ad}}
 			/>
 		</TouchableOpacity>
 	)
@@ -38,7 +39,7 @@ renderItem = ({ item }) =>{
 }
 
 UNSAFE_componentWillMount(){
-	const url = 'http://weast.ahmeterdgn.net/api'
+	const url = API
 
 	fetch(url)
 	.then((response)=> response.json())
@@ -66,7 +67,7 @@ render() {
 
 		</View>
 		:
-<View style={{backgroundColor:'#212121'}}>
+<View style={styles.list}>
 		<FlatList
 
 			numColumns={3}
@@ -106,6 +107,8 @@ loading:{
 	backgroundColor: 'black',
 	alignItems:'center'
 },
-
+list:{
+	backgroundColor:COLOR_HEADER,
+}
 });
 export default withNavigation(Tab1);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList , View, StyleSheet, Text, Image, TouchableOpacity, Button,ActivityIndicator } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
+import {URL,URL_KATAGORI,COLOR_HEADER} from './bilgiler/bilgiler';
 
 export default class Kategori extends Component {
 
@@ -19,12 +20,14 @@ export default class Kategori extends Component {
 
     	return(
 
-                         		<TouchableOpacity
+<TouchableOpacity
         onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
-        style={{flex:1}}>
+        style={styles.touc}
+        activeOpacity={0.9}
+>
     			<Image
-    			style={{flex:1 ,width:null, height: 250, borderRadius:6, margin: 2}}
-    			source={{uri: 'https://weast.ahmeterdgn.net/'+item.ad}}
+    			style={styles.resim}
+    			source={{uri: URL+item.ad}}
     			/>
     		</TouchableOpacity>
     	)
@@ -32,7 +35,7 @@ export default class Kategori extends Component {
     }
 
     UNSAFE_componentWillMount(){
-    	const url = 'https://weast.ahmeterdgn.net/api/index.php?id='+ this.props.navigation.state.params.Kategori_adı
+    	const url = URL_KATAGORI+ this.props.navigation.state.params.Kategori_adı
 
     	fetch(url)
     	.then((response)=> response.json())
@@ -63,8 +66,7 @@ export default class Kategori extends Component {
     		</View>
     		:
 
-  <View style={{backgroundColor:'#111111',    flex: 1,
- }}>
+  <View style={styles.container}>
     		<FlatList
     			numColumns={3}
     			data={this.state.data.reverse()}
@@ -84,11 +86,22 @@ export default class Kategori extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:COLOR_HEADER,
     flex: 1,
   },
   loading:{
     flex:1,
     justifyContent: 'center',
     backgroundColor: 'black',
+  },
+  resim:{
+    flex:1 ,
+    width:null,
+    height: 250,
+    borderRadius:6,
+    margin: 2
+  },
+  touc:{
+    flex:1,
   }
 });

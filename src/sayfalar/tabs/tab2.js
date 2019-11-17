@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { FlatList , View, StyleSheet,  Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 import { withNavigation } from 'react-navigation';
+import {COLOR_HEADER,API,URL,API_KATEGORI} from './../bilgiler/bilgiler';
 
 
 class Tab2 extends Component {
@@ -22,11 +23,13 @@ class Tab2 extends Component {
 
   		<TouchableOpacity
     onPress={() =>  this.props.navigation.navigate("Kategori",{Kategori_adı:item.id})}
+    activeOpacity={0.9}
+
         style={{flex:1}} >
 
                 <Card style={styles.card}>
                 <CardItem cardBody style={styles.cardBody}>
-                  <Image source={{uri: 'https://weast.ahmeterdgn.net/'+item.resim}} style={styles.resim}/>
+                  <Image source={{uri: URL+item.resim}} style={styles.resim}/>
                     <Text style={styles.yazi}>{item.kategori}</Text>
                 </CardItem>
               </Card>
@@ -35,7 +38,7 @@ class Tab2 extends Component {
 
   }
   UNSAFE_componentWillMount(){
-  	const url = 'http://weast.ahmeterdgn.net/api/kategori/'
+  	const url =API_KATEGORI
 
   	fetch(url)
   	.then((response)=> response.json())
@@ -80,7 +83,7 @@ class Tab2 extends Component {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor:'#111111',
+    backgroundColor:COLOR_HEADER,
      borderRadius: 18,
      borderColor: null,
 
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
   },
   list:{
     flex: 1,
-    backgroundColor:'#111111',
+    backgroundColor:COLOR_HEADER,
 
   },
 });

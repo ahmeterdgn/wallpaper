@@ -10,7 +10,7 @@ import Sayfalar from './src/sayfalar/sayfalar';
 import Detaylar from './src/sayfalar/detay';
 import Kategori from './src/sayfalar/kategori';
 import SideBar from './src/sayfalar/menu';
-
+import Hakkında from './src/sayfalar/hakkinda';
 
 
 
@@ -30,7 +30,8 @@ import SideBar from './src/sayfalar/menu';
 const AppDrawerNavigator = createDrawerNavigator({
   Sayfalar,
   Kategori,
-  Detaylar
+  Detaylar,
+  Hakkında
 },
 {
   contentComponent:props=><SideBar {...props}/>,

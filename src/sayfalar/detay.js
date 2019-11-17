@@ -30,6 +30,7 @@ import {
 from "native-base";
 import WallPaperManager from '@ajaybhatia/react-native-wallpaper-manager';
 import RNFetchBlob from 'rn-fetch-blob';
+import {PAYLAS_YAZI,URL,URL_KATAGORI,COLOR_HEADER,KLASOR_ADI,COLOR_TITLE} from './bilgiler/bilgiler';
 
 export async function request_storage_runtime_permission() {
 
@@ -76,14 +77,12 @@ export default class DETAY extends Component {
       }
       _shareimg() {
           Share.share({
-              message: 'Wallpaper Uygulaması http://ahmeterdgn.net/',
-              title: 'asasdsad',
-              url: 'http://weast.ahmeterdgn.net/' + this.props.navigation.state.params.veri,
+              message: PAYLAS_YAZI,
           }).then(this._showResult);
       }
       _setwallpaper() {
           WallPaperManager.setWallpaper({
-              uri: 'https://weast.ahmeterdgn.net/' + this.props.navigation.state.params.veri
+              uri: URL + this.props.navigation.state.params.veri
           }, res => Toast.show({
               text: "DUVAR KAĞIDI UYGULANDI!!",
               position: "bottom",
@@ -107,7 +106,7 @@ export default class DETAY extends Component {
 
     downloadImage = () => {
       var date = new Date();
-      var image_URL = 'https://weast.ahmeterdgn.net/'+this.props.navigation.state.params.veri;
+      var image_URL = URL+this.props.navigation.state.params.veri;
       var ext = this.getExtention(image_URL);
       ext = "." + ext[0];
       const { config, fs } = RNFetchBlob;
@@ -117,7 +116,7 @@ export default class DETAY extends Component {
         addAndroidDownloads: {
           useDownloadManager: true,
           notification: true,
-          path: PictureDir + "/image_" + Math.floor(date.getTime()
+          path: PictureDir + "/"+KLASOR_ADI+"/image_" + Math.floor(date.getTime()
             + date.getSeconds() / 2) + ext,
           description: 'Image'
         }
@@ -147,7 +146,7 @@ export default class DETAY extends Component {
     return (
       <Root>
       <Container style={styles.container}>
-      <Header style={{backgroundColor: 'black' }}>
+      <Header style={styles.header}>
          <Left>
            <Button transparent
            onPress={() =>  this.props.navigation.navigate("Sayfalar")}
@@ -156,7 +155,7 @@ export default class DETAY extends Component {
            </Button>
          </Left>
          <Body>
-           <Title style={{color:'red' }}>Görüntüle</Title>
+           <Title style={styles.title}>Görüntüle</Title>
          </Body>
          <Right>
              <Button transparent
@@ -179,28 +178,28 @@ export default class DETAY extends Component {
 
          <Image
          style={{flex:1}}
-         source={{uri: 'https://weast.ahmeterdgn.net/'+this.props.navigation.state.params.veri}}
+         source={{uri: URL+this.props.navigation.state.params.veri}}
          />
            <Fab
            active={this.state.active}
              direction="up"
              containerStyle={{ opacity: 1 }}
-             style={{ backgroundColor: '#e82a2a', }}
+             style={styles.fab}
              position="bottomRight"
              onPress={() => this.setState({ active: !this.state.active })}>
              <Icon name="ios-checkmark" />
-             <Button style={{ backgroundColor: '#e82a2a' }}
+             <Button style={styles.fab}
              onPress={this.downloadImage}
 
              >
                <Icon name="ios-download" />
              </Button>
-             <Button  style={{ backgroundColor: '#e82a2a' }}
+             <Button style={styles.fab}
              onPress={this._setwallpaper}
              >
                <Icon name="md-tablet-portrait"/>
              </Button>
-             <Button  style={{ backgroundColor: '#e82a2a' }}
+             <Button style={styles.fab}
              onPress={this._shareimg}
 
              >
@@ -219,4 +218,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  header:{
+    backgroundColor: COLOR_HEADER,
+  },
+  title:{
+    color:COLOR_TITLE
+  },
+  fab:{
+    backgroundColor: COLOR_HEADER,
+
+  }
 });

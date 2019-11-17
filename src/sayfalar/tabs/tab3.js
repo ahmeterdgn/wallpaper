@@ -5,6 +5,7 @@ import {
   FlatList, View, StyleSheet, Text, Image, TouchableOpacity, Button, ActivityIndicator,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import {COLOR_HEADER,API,URL} from './../bilgiler/bilgiler';
 
 
 class Tab3 extends Component {
@@ -32,10 +33,8 @@ class Tab3 extends Component {
     return array;
   }
   renderItem = ({ item }) =>
-  // function tiklandi(ad) {    }
 
   	 (
-    // this.props.navigation.navigate('Sayfalar',{ veri: item.ad })
     <TouchableOpacity
       activeOpacity={0.9}
 
@@ -43,17 +42,15 @@ class Tab3 extends Component {
       style={{ flex: 1 }}
   		>
       <Image
-        style={{
-          flex: 1, width: null, height: 250, borderRadius: 5, margin: 1,
-        }}
-        source={{ uri: `https://weast.ahmeterdgn.net/${item.ad}` }}
+        style={styles.resim}
+        source={{ uri: URL+`${item.ad}` }}
       />
     </TouchableOpacity>
   	)
 
 
   UNSAFE_componentWillMount() {
-  	const url = 'http://weast.ahmeterdgn.net/api';
+  	const url =API
 
   	fetch(url)
   	.then((response) => response.json())
@@ -76,16 +73,14 @@ class Tab3 extends Component {
 
   		this.state.isLoading
   		? (
-    <View style={{
-      flex: 1, justifyContent: 'center', backgroundColor: 'black', alignItems: 'center',
-    }}
+    <View style={styles.container}
     >
       <ActivityIndicator size="large" color="red" animating />
 
     </View>
         )
   		: (
-    <View style={{ backgroundColor: '#212121' }}>
+    <View style={styles.list}>
       <FlatList
 
         numColumns={3}
@@ -109,9 +104,22 @@ class Tab3 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    alignItems: 'center',
   },
   text: {
     margin: 20,
   },
+  resim:{
+    flex: 1,
+    width: null,
+    height: 250,
+    borderRadius: 5,
+    margin: 1,
+  },
+  list:{
+    backgroundColor:COLOR_HEADER,
+  }
 });
 export default withNavigation(Tab3);
