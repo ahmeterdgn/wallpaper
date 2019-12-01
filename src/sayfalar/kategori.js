@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { FlatList , View, StyleSheet, Text, Image, TouchableOpacity, Button,ActivityIndicator } from 'react-native';
+import { FlatList , View, StyleSheet, Text, Image, TouchableOpacity, Button,ActivityIndicator,Dimensions } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import {URL,URL_KATAGORI,COLOR_HEADER} from './bilgiler/bilgiler';
+import {URL,URL_KATAGORI,COLOR_HEADER,COLOR_IMAGE} from './bilgiler/bilgiler';
+
+const ITEM_WIDHT = Dimensions.get('window').width;
 
 export default class Kategori extends Component {
 
@@ -22,7 +24,6 @@ export default class Kategori extends Component {
 
 <TouchableOpacity
         onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
-        style={styles.touc}
         activeOpacity={0.9}
 >
     			<Image
@@ -96,12 +97,12 @@ const styles = StyleSheet.create({
   },
   resim:{
     flex:1 ,
-    width:null,
+    width:ITEM_WIDHT/3,
     height: 250,
     borderRadius:6,
-    margin: 2
+    margin: 2,
+    backgroundColor:COLOR_IMAGE,
+
   },
-  touc:{
-    flex:1,
-  }
+
 });

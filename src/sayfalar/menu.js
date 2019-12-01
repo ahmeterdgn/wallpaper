@@ -10,7 +10,7 @@ import {
   Image,
   Share
 } from 'react-native';
-import { Icon, Button,Text,Toast,Root } from 'native-base';
+import { Icon, Button,Text } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import {COLOR_MENU, COLOR_MENUIKI, IMAGE_MENU} from './bilgiler/bilgiler';
 
@@ -23,21 +23,10 @@ export default class Menu extends Component {
     })
   }
 
- fav = () => {
-   Toast.show({
-       text: "           YAPIM AŞAMASINDA!!",
-       position: "bottom",
-       style: {
-           bottom:40,
-           borderRadius:80,
-           left: '100%'
 
-         }})
- }
 
   render() {
     return (
-      <Root>
         <LinearGradient
         style={{flex:1, }}
         start={{x: 2, y: 2}} end={{x:2, y: 0.2}}
@@ -77,7 +66,7 @@ export default class Menu extends Component {
         </Button>
         <Button transparent
         style={{justifyContent:'flex-start' }}
-        onPress={this.fav}
+        onPress={()=> alert('YAPIM AŞAMSINDA')}
         >
           <Icon name='heart' style={styles.Iconlar}/>
           <Text  style={styles.textler}>FAVORİLER</Text>
@@ -102,7 +91,6 @@ export default class Menu extends Component {
         </ScrollView>
         </SafeAreaView>
         </LinearGradient>
-        </Root>
 
     );
   }

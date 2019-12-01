@@ -19,9 +19,7 @@ import Hakkında from './src/sayfalar/hakkinda';
   render() {
     const AppNavigator = createAppContainer(AppDrawerNavigator);
 
-    return (
-      <AppNavigator/>
-    );
+    return (<AppNavigator/>);
   }
 }
 

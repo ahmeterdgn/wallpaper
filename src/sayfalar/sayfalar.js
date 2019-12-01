@@ -5,18 +5,22 @@ import {
   StyleSheet,
   Linking,
   Text,
+  StatusBar
 } from 'react-native';
 import Tab1 from './tabs/tab1';
 import Tab2 from './tabs/tab2';
 import Tab3 from './tabs/tab3';
 import SideBar from './menu';
-import {COLOR_HEADER, COLOR_TITLE} from './bilgiler/bilgiler';
+import {COLOR_HEADER, COLOR_TITLE,TITLE} from './bilgiler/bilgiler';
 export default class TabsExample extends Component {
 
   render() {
     return (
       <Container >
-        <Header hasTabs style={styles.header}>
+
+        <Header hasTabs style={styles.header}
+        androidStatusBarColor={COLOR_HEADER}>
+
         <Left>
           <Button transparent
             onPress={() => this.props.navigation.toggleDrawer()}
@@ -25,7 +29,7 @@ export default class TabsExample extends Component {
           </Button>
         </Left>
          <Body >
-         <Title style={styles.title}>AHMETERDGN</Title>
+         <Title style={styles.title}>{TITLE}</Title>
          </Body>
          <Right>
            <Button transparent
@@ -35,14 +39,14 @@ export default class TabsExample extends Component {
            </Button>
          </Right>
         </Header>
-        <Tabs>
-          <Tab tabStyle={styles.tablar} activeTabStyle={styles.tablar} textStyle={styles.tabtext} heading="YENİ">
+        <Tabs style={styles.tab} tabBarUnderlineStyle	={{backgroundColor:COLOR_TITLE}} >
+          <Tab tabStyle={styles.tablar}  activeTabStyle={styles.tablar} textStyle={styles.tabtext} scrollWithoutAnimation={false}  tabBarUnderlineStyle	={{backgroundColor: 'red'}} heading="YENİ">
             <Tab1 />
           </Tab>
-          <Tab tabStyle={styles.tablar} activeTabStyle={styles.tablar}  textStyle={styles.tabtext} heading="KATEGORİLER">
+          <Tab tabStyle={styles.tablar} activeTabStyle={styles.tablar}  textStyle={styles.tabtext} scrollWithoutAnimation={false} tabBarUnderlineStyle	={{backgroundColor: 'red'}} heading="KATEGORİLER">
             <Tab2 />
           </Tab>
-          <Tab tabStyle={styles.tablar} activeTabStyle={styles.tablar} textStyle={styles.tabtext} heading="KARIŞIK">
+          <Tab tabStyle={styles.tablar} activeTabStyle={styles.tablar} textStyle={styles.tabtext} scrollWithoutAnimation={false} tabBarUnderlineStyle	={{backgroundColor: 'red'}} heading="KARIŞIK">
             <Tab3 />
           </Tab>
         </Tabs>
@@ -75,5 +79,8 @@ const styles = StyleSheet.create({
   },
   tabtext: {
     color:'white'
+  },
+  tab:{
+    backgroundColor: COLOR_HEADER,
   }
 });

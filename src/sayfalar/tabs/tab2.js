@@ -1,11 +1,12 @@
 /* @flow */
 
 import React, { Component } from 'react';
-import { FlatList , View, StyleSheet,  Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { FlatList , View, StyleSheet,  Image, TouchableOpacity, ActivityIndicator,Dimensions } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 import { withNavigation } from 'react-navigation';
-import {COLOR_HEADER,API,URL,API_KATEGORI} from './../bilgiler/bilgiler';
+import {COLOR_HEADER,API,URL,API_KATEGORI,COLOR_IMAGE} from './../bilgiler/bilgiler';
 
+const ITEM_WIDHT = Dimensions.get('window').width;
 
 class Tab2 extends Component {
   constructor(){
@@ -22,10 +23,11 @@ class Tab2 extends Component {
   	return(
 
   		<TouchableOpacity
+      itemWidht={ITEM_WIDHT/2}
     onPress={() =>  this.props.navigation.navigate("Kategori",{Kategori_adı:item.id})}
     activeOpacity={0.9}
-
-        style={{flex:1}} >
+    style={{flex:1}}
+ >
 
                 <Card style={styles.card}>
                 <CardItem cardBody style={styles.cardBody}>
@@ -43,7 +45,9 @@ class Tab2 extends Component {
   	fetch(url)
   	.then((response)=> response.json())
   	.then((responseJson)=>{
-
+      this.setState({
+      refreshing:true,
+  })
   		this.setState({
   			data:responseJson,
         isLoading:false,
@@ -74,7 +78,6 @@ class Tab2 extends Component {
         refreshing={this.state.refreshing}
         onRefresh={() =>  this.UNSAFE_componentWillMount()}
   		/>
-
   </View>
 
   )
@@ -86,29 +89,30 @@ const styles = StyleSheet.create({
     backgroundColor:COLOR_HEADER,
      borderRadius: 18,
      borderColor: null,
+     flex: 1,
 
   },
   cardBody: {
-    borderRadius: 18
+    borderRadius: 18,
+
   },
   resim:{
     flex: 1,
-    height: 100,
-    width: null,
+    height: 130,
     borderRadius: 4,
+    backgroundColor:COLOR_IMAGE,
+
   },
   yazi:{
     color:'#fff',
-    fontSize: 25 ,
+    fontSize: 20 ,
     position:'absolute',
-    right: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    right: '30%',
   },
   yukleniyor:{
     flex:1,
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: COLOR_HEADER,
 
   },
   list:{

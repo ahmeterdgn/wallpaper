@@ -5,7 +5,7 @@ import {
   FlatList, View, StyleSheet, Text, Image, TouchableOpacity, Button, ActivityIndicator,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import {COLOR_HEADER,API,URL} from './../bilgiler/bilgiler';
+import {COLOR_HEADER,API,URL,COLOR_IMAGE} from './../bilgiler/bilgiler';
 
 
 class Tab3 extends Component {
@@ -19,12 +19,9 @@ class Tab3 extends Component {
   }
   shuffle = (array) =>  {
     var currentIndex = array.length, temporaryValue, randomIndex;
-
     while (0 !== currentIndex) {
-
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
@@ -56,7 +53,9 @@ class Tab3 extends Component {
   	.then((response) => response.json())
   	.then((responseJson) => {
     let shuffle = this.shuffle(responseJson);
-
+    this.setState({
+    refreshing:true,
+})
   		this.setState({
   			  data:shuffle,
           isLoading: false,
@@ -73,7 +72,7 @@ class Tab3 extends Component {
 
   		this.state.isLoading
   		? (
-    <View style={styles.container}
+    <View style={styles.loading}
     >
       <ActivityIndicator size="large" color="red" animating />
 
@@ -90,7 +89,7 @@ class Tab3 extends Component {
         onRefresh={() =>  this.UNSAFE_componentWillMount()}
         keyExtractor={(item, index) => index}
         onEndReached={this.endReached}
-        onEndReachedThreshold={.2}
+        onEndReachedThreshold={.7}
 
       />
 
@@ -104,22 +103,25 @@ class Tab3 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'black',
-    alignItems: 'center',
   },
-  text: {
-    margin: 20,
+  text:{
+    margin: 20
   },
   resim:{
-    flex: 1,
-    width: null,
-    height: 250,
-    borderRadius: 5,
-    margin: 1,
+  	width:null,
+  	height: 250,
+  	borderRadius:8,
+  	margin: 2,
+  	backgroundColor:COLOR_IMAGE,
+  },
+  loading:{
+  	flex:1,
+  	justifyContent:'center',
+  	backgroundColor:COLOR_HEADER,
+  	alignItems:'center'
   },
   list:{
-    backgroundColor:COLOR_HEADER,
+  	backgroundColor:COLOR_HEADER,
   }
-});
+  });
 export default withNavigation(Tab3);

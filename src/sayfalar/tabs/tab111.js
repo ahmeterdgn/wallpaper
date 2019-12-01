@@ -13,14 +13,13 @@ import {
 	} from 'react-native';
 	import {COLOR_HEADER,API,URL,API_KATEGORI,COLOR_IMAGE} from './../bilgiler/bilgiler';
 
-//npm i -S react-native-optimized-flatlist sil
 class Tab1 extends Component {
 constructor(){
 	super()
 	this.state={
 		data:[],
     isLoading:true,
-    refreshing:true
+    refreshing:false
 	}
 }
 
@@ -28,7 +27,7 @@ renderItem = ({ item }) =>{
 	return(
 		<TouchableOpacity
 			activeOpacity={0.9}
- 		key={item.key}
+
     onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
     style={{flex:1}}>
 			<Image
@@ -46,9 +45,7 @@ UNSAFE_componentWillMount(){
 	fetch(url)
 	.then((response)=> response.json())
 	.then((responseJson)=>{
-    this.setState({
-    refreshing:true,
-})
+
 		this.setState({
       data:responseJson.reverse(),
       isLoading:false,
@@ -72,7 +69,6 @@ render() {
 		</View>
 		:
 <View style={styles.list}>
-
 		<FlatList
 
 			numColumns={3}
@@ -81,7 +77,7 @@ render() {
       refreshing={this.state.refreshing}
       onRefresh={() =>  this.UNSAFE_componentWillMount()}
 			onEndReached={this.endReached}
-			onEndReachedThreshold={.9}
+			onEndReachedThreshold={.7}
 
 			keyExtractor={(item,index)=>index}
 		/>
@@ -109,7 +105,7 @@ resim:{
 loading:{
 	flex:1,
 	justifyContent:'center',
-	backgroundColor:COLOR_HEADER,
+	backgroundColor: 'black',
 	alignItems:'center'
 },
 list:{

@@ -84,15 +84,13 @@ export default class DETAY extends Component {
           WallPaperManager.setWallpaper({
               uri: URL + this.props.navigation.state.params.veri
           }, res => Toast.show({
-              text: "DUVAR KAĞIDI UYGULANDI!!",
+              text: "DUVAR KAĞIDI UYGULANDI!",
               position: "bottom",
-              buttonText: "TAMAM",
-              type: "success",
               style: {
                   bottom: 40,
                   borderRadius: 80,
-                  width: '80%',
-                  left: '100%'
+                  width: '60%',
+                  left: '130%'
               }
           }))
       }
@@ -123,15 +121,13 @@ export default class DETAY extends Component {
       }
       config(options).fetch('GET', image_URL).then((res) => {
         Toast.show({
-           text: "RESİM İNDİRİLDİ!!",
+           text: "GÖRSEL İNDİRİLDİ!",
            position: "bottom",
-           buttonText: "TAMAM",
-           type: "success",
            style: {
                bottom: 40,
                borderRadius: 80,
                width: '60%',
-               left: '150%'
+               left: '130%'
            }
        })
       });
