@@ -14,15 +14,13 @@ import {
 	import {COLOR_HEADER,API,URL,API_KATEGORI,COLOR_IMAGE} from './../bilgiler/bilgiler';
 
 //npm i -S react-native-optimized-flatlist sil
-class Tab3 extends Component {
+class Tab1 extends Component {
 constructor(){
 	super()
 	this.state={
 		data:[],
     isLoading:true,
-    refreshing:true,
-    pages:0,
-    error:null
+    refreshing:true
 	}
 }
 
@@ -44,46 +42,25 @@ renderItem = ({ item }) =>{
 
 }
 
-handleRefresh = () => {
-	this.setState({ refreshing: true });
-
-};
-
 UNSAFE_componentWillMount(){
-	const { pages } = this.state;
-	const url = 'http://weast.ahmeterdgn.net/api/random/index.php?pages='+pages
-      fetch(url)
-        .then(res => res.json())
-        .then(res => {
-          this.setState({
-						//[...this.state.data, ...res]
-            data: pages === 1 ? res : res ,
-            error: res.error || null,
-            isLoading: false,
-            refreshing: false
-          });
-        })
-        .catch(error => {
-          this.setState({ error, isLoading: false });
-        });
-    };
+	const url = API
 
-endReached = () => {
-		    this.setState({
-		      pages: this.state.pages + 1
-		    }, () => {
-		      this.UNSAFE_componentWillMount();
-		    });
-		  };
-
-startReached = () => {
-					    this.setState({
-					      pages: this.state.pages - 1
-					    }, () => {
-					      this.UNSAFE_componentWillMount();
-					    });
-					  };
-
+	fetch(url)
+	.then((response)=> response.json())
+	.then((responseJson)=>{
+    this.setState({
+    refreshing:true,
+})
+		this.setState({
+      data:responseJson.reverse(),
+      isLoading:false,
+      refreshing:false,
+		})
+	})
+	.catch((error)=>{
+		console.log(error)
+	})
+}
 
 render() {
 
@@ -104,11 +81,11 @@ render() {
 			data={this.state.data}
 			renderItem={this.renderItem}
       refreshing={this.state.refreshing}
-      onRefresh={() =>  this.handleRefresh}
+      onRefresh={() =>  this.UNSAFE_componentWillMount()}
 			onEndReached={this.endReached}
-			onEndReachedThreshold={0.8}
+			onEndReachedThreshold={.9}
+
 			keyExtractor={(item,index)=>index}
-			onStartReached={this.startReached}
 		/>
 
 </View>
@@ -141,4 +118,4 @@ list:{
 	backgroundColor:COLOR_HEADER,
 }
 });
-export default withNavigation(Tab3);
+export default withNavigation(Tab1);

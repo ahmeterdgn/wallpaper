@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
   title: {
     color: COLOR_TITLE,
     left: 60,
-    fontFamily: 'BadScript-Regular'
+    fontFamily: 'BadScript-Regular',
+    
   },
   icon2: {
     color:'#fff',

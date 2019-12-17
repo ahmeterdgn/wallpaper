@@ -74,6 +74,8 @@ class Tab2 extends Component {
   			numColumns={2}
   			data={this.state.data}
   			renderItem={this.renderItem}
+        onEndReachedThreshold={7}
+        initialNumToRender={7}
   			keyExtractor={(item,index)=>index}
         refreshing={this.state.refreshing}
         onRefresh={() =>  this.UNSAFE_componentWillMount()}

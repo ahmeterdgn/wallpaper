@@ -18,8 +18,7 @@ export default class Kategori extends Component {
     }
 
     renderItem = ({ item }) =>{
-      // function tiklandi(ad) {    }
-
+    
     	return(
 
 <TouchableOpacity

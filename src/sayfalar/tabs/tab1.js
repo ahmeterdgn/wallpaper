@@ -20,7 +20,9 @@ constructor(){
 	this.state={
 		data:[],
     isLoading:true,
-    refreshing:true
+    refreshing:true,
+    pages:0,
+    error:null
 	}
 }
 
@@ -29,6 +31,8 @@ renderItem = ({ item }) =>{
 		<TouchableOpacity
 			activeOpacity={0.9}
  		key={item.key}
+		onEndReachedThreshold={7}
+		initialNumToRender={7}
     onPress={() =>  this.props.navigation.navigate("Detaylar",{veri:item.ad})}
     style={{flex:1}}>
 			<Image
@@ -40,25 +44,37 @@ renderItem = ({ item }) =>{
 
 }
 
-UNSAFE_componentWillMount(){
-	const url = API
+handleRefresh = () => {
+	this.setState({ refreshing: true });
 
-	fetch(url)
-	.then((response)=> response.json())
-	.then((responseJson)=>{
-    this.setState({
-    refreshing:true,
-})
-		this.setState({
-      data:responseJson.reverse(),
-      isLoading:false,
-      refreshing:false,
-		})
-	})
-	.catch((error)=>{
-		console.log(error)
-	})
-}
+};
+
+UNSAFE_componentWillMount(){
+	const { pages } = this.state;
+	const url = 'http://weast.ahmeterdgn.net/api/index.php?pages='+pages
+      fetch(url)
+        .then(res => res.json())
+        .then(res => {
+          this.setState({
+            data: pages === 0 ? res : [...this.state.data, ...res],
+            error: res.error || null,
+            isLoading: false,
+            refreshing: false
+          });
+        })
+        .catch(error => {
+          this.setState({ error, isLoading: false });
+        });
+    };
+
+endReached = () => {
+		    this.setState({
+		      pages: this.state.pages + 1
+		    }, () => {
+		      this.UNSAFE_componentWillMount();
+		    });
+		  };
+
 
 render() {
 
@@ -79,11 +95,11 @@ render() {
 			data={this.state.data}
 			renderItem={this.renderItem}
       refreshing={this.state.refreshing}
-      onRefresh={() =>  this.UNSAFE_componentWillMount()}
+      onRefresh={() =>  this.handleRefresh}
 			onEndReached={this.endReached}
-			onEndReachedThreshold={.9}
-
+			onEndReachedThreshold={0.2}
 			keyExtractor={(item,index)=>index}
+			// ListFooterComponent={()=> this.pagesarttır()}
 		/>
 
 </View>
